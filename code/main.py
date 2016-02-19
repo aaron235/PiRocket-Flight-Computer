@@ -6,11 +6,11 @@ from Adafruit_ADS1x15.Adafruit_ADS1x15 import ADS1x15
 # import Adafruit_BMP.BMP as BMP
 
 # Configuring our i2c addresses:
-ADDRESS_ADS1115 =   0x48
-ADDRESS_BMP180 =    0x77
+ADDRESS_ADS1115 = 0x48
+ADDRESS_BMP180 = 0x77
 
 # Our calibrated zero values for the accelerometer:
-xZero = 1657.8712 
+xZero = 1657.8712
 yZero = 1660.7111
 zZero = 1659.3377
 # And, our calibrated scale factors for the accelerometer:
@@ -18,7 +18,7 @@ xScale = 7.126831
 yScale = 7.286181
 zScale = 7.271006
 # Number of digits to round to for g-force data:
-gForcePrecision = 5 
+gForcePrecision = 5
 
 
 def setup():
@@ -26,12 +26,13 @@ def setup():
 	global accelADC
 	accelADC = ADS1x15( address=ADDRESS_ADS1115, ic=ADS1x15._ADS1x15__IC_ADS11155 )
 
+
 def main():
 	while True:
 		# Spit it out to the console:
 			print( str( getXAccel() ) + ",  \t" +
-			       str( getYAccel() ) + ",  \t" +
-		               str( getZAccel() ) + ",  \t" )
+				str( getYAccel() ) + ",  \t" +
+				str( getZAccel() ) + ",  \t" )
 
 
 def getXAccel():
@@ -39,10 +40,12 @@ def getXAccel():
 	xAdj = round( ( ( xRaw - xZero ) / xScale ), gForcePrecision )
 	return xAdj
 
+
 def getYAccel():
 	yRaw = accelADC.readADCSingleEnded( channel=2, pga=4096, sps=50 )
 	yAdj = round( ( ( yRaw - yZero ) / yScale ), gForcePrecision )
 	return yAdj
+
 
 def getZAccel():
 	zRaw = accelADC.readADCSingleEnded( channel=3, pga=4096, sps=50 )
@@ -53,4 +56,3 @@ def getZAccel():
 if ( __name__ == "__main__" ):
 	setup()
 	main()
-
