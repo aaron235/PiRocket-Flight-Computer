@@ -14,12 +14,12 @@ def init():
 
 def read():
 	data = dict()
-	data['Timestamp' = datetime.datetime.now() #fix this - pi0 does not have
+	data['Timestamp'] = datetime.datetime.now()  # fix this - pi0 does not have
 	data['Temperature'] = barometer.read_temperature()
 	data['Pressure'] = barometer.read_pressure()
 	data['Altitude'] = barometer.read_altitude()
 	data['Sealevel Pressure'] = barometer.read_sealevel_pressure()
-	#add reading from ADXL here
+	# add reading from ADXL here
 	return data
 
 
@@ -28,8 +28,9 @@ def save(data):
 	for key, value in data:
 		row = row + key + ',' + value + ','
 
-	row = row[:-1] #remove last comma from string
+	row = row[:-1]  # remove last comma from string
 	data_writer.writerow(row)
+
 
 def run():
 	while True:
