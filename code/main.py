@@ -28,12 +28,19 @@ def setup():
 
 
 def main():
+	output = open('output.txt', 'ab+')
 	while True:
-		# Spit it out to the console:
-			print( str( getXAccel() ) + ",  \t" +
-				str( getYAccel() ) + ",  \t" +
-				str( getZAccel() ) + ",  \t" )
+		pickle.dump(mapData(), output)
+		
 
+
+def mapData():
+	xAccel = getXAccel()
+	yAccel = getYAccel()
+	zAccel = getZAccel()
+	time = getTime()
+	data = dict('xData':(xAccel, time), 'yData':(yAccel, time), 'zData':(zAccel, time))
+	return data
 
 def getXAccel():
 	xRaw = accelADC.readADCSingleEnded( channel=1, pga=4096, sps=50 )
