@@ -1,20 +1,30 @@
-import datetime
 import csv
 
 import lib.Adafruit_Python_BMP.Adafruit_BMP.BMP085.BMP085 as BMP085
 import lib.Adafruit-Raspberry-Pi-Python-Code.Adafruit_ADS1x15.ADS1x15 as ADS1115
-import lib.Adafruit-Raspberry-Pi-Python-Code.Adafruit_ADS1x15.ADS1x15 as ADS1115
-import lib.Adafruit-Raspberry-Pi-Python-Code.Adafruit_ADS1x15.ADS1x15 as ADS1115
-
 # import Adafruit_ADXL.ADXL377 as ADXL377
 # import UltimateGPS
 
+# TO DO: finish read() of missing components
+class Clock( object ):
+	def __init__( self ):
 
-class Barmoeter( object ):
+	def read():
+		clockData = dict()
+		return clockData		
+
+class Barometer( object ):
 	def __init__( self, mode ):
 		self.sensor = BMP085( mode )
-
-
+	
+	def read():
+		baroData = dict()
+		baroData['Temperature'] = self.sensor.read_temperature()
+		baroData['Pressure'] = self.sensor.read_pressure()
+		baroData['Altitude'] = self.sensor.read_altitude()
+		baroData['Sealevel Pressure'] = self.sensor.read_sealevel_pressure()
+		return baroData
+		
 class Accelerometer( object ):
 	def __init__( self ):
 		self.sensor = ADS1115()
@@ -43,30 +53,44 @@ class Accelerometer( object ):
 		xRaw = self.sensor.readADCSingleEnded( channel=1, pga=4096, sps=200 )
 		xAdj = round( ( ( xRaw - self.xZero ) / self.xScale ), self.gForcePrecision )
 		return xAdj
-
+		
+	def read():
+		accelData = dict()
+		accelData['X Accel'] = readX()
+		accelData['Y Accel'] = readY()
+		accelData['Z Accel'] = readZ()
+		return accelData
 
 class Gyroscope( object ):
 	def __init__( self ):
-
+	
+	def read():
+		gyroData = dict()
+		return gyroData
 
 class Magnetometer( object ):
 	def __init__( self ):
 
+	def read():
+		magnetoData = dict()
+		return magnetoData
 
 def init():
-	global barometer = BMP085.BMP085()
-	# global accelerometer = ADXL377.ADXL377()
-	global data_writer = csv.writer(open('rocketpi_data.csv', 'w'), delimiter = ',', lineterminator = '\n')
+	global clock = Clock()	
+	global barometer = Barometer()
+	global accelerometer = Accelerometer()
+	global gyroscope = Gyroscope()
+	global magnetometer = Magnetometer()
+	global dataWriter = csv.writer( open( 'rocketpi_data.csv', 'w' ), delimiter = ',', lineterminator = '\n' )
 
 
 def read():
 	data = dict()
-	data['Timestamp'] = datetime.datetime.now()  # fix this - pi0 does not have
-	data['Temperature'] = barometer.read_temperature()
-	data['Pressure'] = barometer.read_pressure()
-	data['Altitude'] = barometer.read_altitude()
-	data['Sealevel Pressure'] = barometer.read_sealevel_pressure()
-	# add reading from ADXL here
+	data.update( clock.read() )
+	data.update( barometer.read() )
+	data.update( accelerometer.read() )
+	data.update( gyroscope.read() )
+	data.update( magnetometer.read() )	
 	return data
 
 
@@ -76,7 +100,7 @@ def save(data):
 		row = row + key + ',' + value + ','
 
 	row = row[:-1]  # remove last comma from string
-	data_writer.writerow(row)
+	dataWriter.writerow(row)
 
 
 def run():
