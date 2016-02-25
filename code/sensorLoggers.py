@@ -2,7 +2,8 @@ import csv
 
 import lib.Adafruit_Python_BMP.Adafruit_BMP.BMP085.BMP085 as BMP085
 import lib.Adafruit-Raspberry-Pi-Python-Code.Adafruit_ADS1x15.ADS1x15 as ADS1115
-import lib.Adafruit-Raspberry-Pi-Python-Code.Adafruit_I2C.Adafruit_I2C as Adafruit_I2C
+import lib.hmc5883l.hmc5883L as HMC5883L
+import Gyro-L3GD20-Python.L3GD20 as L3GD20
 # import Adafruit_ADXL.ADXL377 as ADXL377
 # import UltimateGPS
 
@@ -71,7 +72,7 @@ class Gyroscope( object ):
 
 class Magnetometer( object ):
 	def __init__( self ):
-		
+
 
 	def read():
 		magnetoData = dict()
