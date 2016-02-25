@@ -2,6 +2,10 @@ import csv
 
 import lib.Adafruit_Python_BMP.Adafruit_BMP.BMP085.BMP085 as BMP085
 import lib.Adafruit-Raspberry-Pi-Python-Code.Adafruit_ADS1x15.ADS1x15 as ADS1115
+import lib.hmc5883l.hmc5883L as HMC5883L
+import Gyro-L3GD20-Python.L3GD20 as L3GD20
+# L3GD20 is dependent on the following 3rd-party libraries (not included on github):
+# numpy, smbus
 # import Adafruit_ADXL.ADXL377 as ADXL377
 # import UltimateGPS
 
@@ -11,12 +15,12 @@ class Clock( object ):
 
 	def read():
 		clockData = dict()
-		return clockData		
+		return clockData
 
 class Barometer( object ):
 	def __init__( self, mode ):
 		self.sensor = BMP085( mode )
-	
+
 	def read():
 		baroData = dict()
 		baroData['Temperature'] = self.sensor.read_temperature()
@@ -24,7 +28,7 @@ class Barometer( object ):
 		baroData['Altitude'] = self.sensor.read_altitude()
 		baroData['Sealevel Pressure'] = self.sensor.read_sealevel_pressure()
 		return baroData
-		
+
 class Accelerometer( object ):
 	def __init__( self ):
 		self.sensor = ADS1115()
@@ -53,7 +57,7 @@ class Accelerometer( object ):
 		xRaw = self.sensor.readADCSingleEnded( channel=1, pga=4096, sps=200 )
 		xAdj = round( ( ( xRaw - self.xZero ) / self.xScale ), self.gForcePrecision )
 		return xAdj
-		
+
 	def read():
 		accelData = dict()
 		accelData['X Accel'] = readX()
@@ -63,25 +67,39 @@ class Accelerometer( object ):
 
 class Gyroscope( object ):
 	def __init__( self ):
-	
+		self.sensor = L3GD20(busId = 1, slaveAddr = 0x6b, ifLog = False, ifWriteBlock=False)
+		self.sensor.Set_PowerMode('Normal')
+		self.sensor.Set_FullScale_Value('250dps')
+		self.sensor.Set_AxisX_Enabled(True)
+		self.sensor.Set_AxisY_Enabled(True)
+		self.sensor.Set_AxisZ_Enabled(True)
+		self.sensor.Init()
+		self.sensor.Calibrate()		
 	def read():
 		gyroData = dict()
+		gyroData['gyroX'] = self.sensor.Get_CalOutX_Value()
+		gyroData['gyroY'] = self.sensor.Get_CalOutY_Value()
+		gyroData['gyroZ'] = self.sensor.Get_CalOutZ_Value()
 		return gyroData
 
 class Magnetometer( object ):
 	def __init__( self ):
 
+
 	def read():
 		magnetoData = dict()
 		return magnetoData
 
+
+
 def init():
-	global clock = Clock()	
+	global clock = Clock()
 	global barometer = Barometer()
 	global accelerometer = Accelerometer()
 	global gyroscope = Gyroscope()
 	global magnetometer = Magnetometer()
 	global dataWriter = csv.writer( open( 'rocketpi_data.csv', 'w' ), delimiter = ',', lineterminator = '\n' )
+	global eventWriter = csv.writer( open( 'rocketpi_log.csv', 'w' ), delimiter = ',', lineterminator = '\n' )
 
 
 def read():
@@ -90,14 +108,14 @@ def read():
 	data.update( barometer.read() )
 	data.update( accelerometer.read() )
 	data.update( gyroscope.read() )
-	data.update( magnetometer.read() )	
+	data.update( magnetometer.read() )
 	return data
 
 
 def save(data):
 	row = ''
 	for key, value in data:
-		row = row + key + ',' + value + ','
+		row = row + key + ',' + str(value) + ','
 
 	row = row[:-1]  # remove last comma from string
 	dataWriter.writerow(row)
@@ -105,8 +123,10 @@ def save(data):
 
 def run():
 	while True:
-		data = read()
-		save(data)
+		try:
+			data = read()
+			save(data)
+		except:
 
 init()
 run()
