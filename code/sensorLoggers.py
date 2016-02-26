@@ -4,8 +4,10 @@ import lib.Adafruit_Python_BMP.Adafruit_BMP.BMP085.BMP085 as BMP085
 import lib.Adafruit-Raspberry-Pi-Python-Code.Adafruit_ADS1x15.ADS1x15 as ADS1115
 import lib.hmc5883l.hmc5883L as HMC5883L
 import Gyro-L3GD20-Python.L3GD20 as L3GD20
+
 # L3GD20 is dependent on the following 3rd-party libraries (not included on github):
 # numpy, smbus
+
 # import Adafruit_ADXL.ADXL377 as ADXL377
 # import UltimateGPS
 
@@ -67,6 +69,7 @@ class Accelerometer( object ):
 
 class Gyroscope( object ):
 	def __init__( self ):
+<<<<<<< HEAD
 		self.sensor = L3GD20(busId = 1, slaveAddr = 0x6b, ifLog = False, ifWriteBlock=False)
 		self.sensor.Set_PowerMode('Normal')
 		self.sensor.Set_FullScale_Value('250dps')
@@ -75,6 +78,9 @@ class Gyroscope( object ):
 		self.sensor.Set_AxisZ_Enabled(True)
 		self.sensor.Init()
 		self.sensor.Calibrate()		
+=======
+
+>>>>>>> origin/master
 	def read():
 		gyroData = dict()
 		gyroData['gyroX'] = self.sensor.Get_CalOutX_Value()
