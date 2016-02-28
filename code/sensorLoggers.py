@@ -84,11 +84,10 @@ class Gyroscope( object ):
 
 class Magnetometer( object ):
 	def __init__( self ):
-
+		self.sensor = HMC5888L.hmc588l()
 
 	def read():
-		magnetoData = dict()
-		return magnetoData
+		return self.sensor.axes()
 
 
 def init():
