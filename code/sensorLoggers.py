@@ -12,12 +12,6 @@ import Gyro-L3GD20-Python.L3GD20 as L3GD20
 # import UltimateGPS
 
 # TO DO: finish read() of missing components
-class Clock( object ):
-	def __init__( self ):
-
-	def read():
-		clockData = dict()
-		return clockData
 
 class Barometer( object ):
 	def __init__( self, mode ):
@@ -69,24 +63,24 @@ class Accelerometer( object ):
 
 class Gyroscope( object ):
 	def __init__( self ):
-<<<<<<< HEAD
-		self.sensor = L3GD20(busId = 1, slaveAddr = 0x6b, ifLog = False, ifWriteBlock=False)
+		self.sensor = L3GD20(busId=1, slaveAddr=0x6b, ifLog=False, ifWriteBlock=False)
 		self.sensor.Set_PowerMode('Normal')
-		self.sensor.Set_FullScale_Value('250dps')
+		self.sensor.Set_FullScale_Value('2000dps')
 		self.sensor.Set_AxisX_Enabled(True)
 		self.sensor.Set_AxisY_Enabled(True)
 		self.sensor.Set_AxisZ_Enabled(True)
 		self.sensor.Init()
-		self.sensor.Calibrate()		
-=======
+		self.sensor.Calibrate()
 
->>>>>>> origin/master
-	def read():
-		gyroData = dict()
-		gyroData['gyroX'] = self.sensor.Get_CalOutX_Value()
-		gyroData['gyroY'] = self.sensor.Get_CalOutY_Value()
-		gyroData['gyroZ'] = self.sensor.Get_CalOutZ_Value()
-		return gyroData
+	def readX():
+		return self.sensor.Get_CalOutX_Value()
+
+	def readY():
+		return self.sensor.Get_CalOutY_Value()
+
+	def readZ():
+		self.sensor.Get_CalOutZ_Value()
+
 
 class Magnetometer( object ):
 	def __init__( self ):
@@ -97,15 +91,14 @@ class Magnetometer( object ):
 		return magnetoData
 
 
-
 def init():
 	global clock = Clock()
 	global barometer = Barometer()
 	global accelerometer = Accelerometer()
 	global gyroscope = Gyroscope()
 	global magnetometer = Magnetometer()
-	global dataWriter = csv.writer( open( 'rocketpi_data.csv', 'w' ), delimiter = ',', lineterminator = '\n' )
-	global eventWriter = csv.writer( open( 'rocketpi_log.csv', 'w' ), delimiter = ',', lineterminator = '\n' )
+	global dataWriter = csv.writer( open( 'rocketpi_data.csv', 'w' ), delimiter=',', lineterminator='\n' )
+	global eventWriter = csv.writer( open( 'rocketpi_log.csv', 'w' ), delimiter=',', lineterminator='\n' )
 
 
 def read():
