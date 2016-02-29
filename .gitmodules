@@ -1,12 +1,12 @@
-[submodule "lib/Adafruit_Raspberry_Pi_Python_Code"]
-	path = code/lib/Adafruit_Raspberry_Pi_Python_Code
-	url = https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code.git
-[submodule "lib/Adafruit_Python_BMP"]
-	path = code/lib/Adafruit_Python_BMP
-	url = https://github.com/adafruit/Adafruit_Python_BMP.git
-[submodule "lib/hmc5883l"]
-	path = code/lib/hmc5883l
-	url = https://github.com/rm-hull/hmc5883l.git
-[submodule "lib/Gyro_L3GD20_Python"]
+[submodule "code/lib/Gyro_L3GD20_Python"]
 	path = code/lib/Gyro_L3GD20_Python
 	url = https://github.com/mpolaczyk/Gyro-L3GD20-Python.git
+[submodule "code/lib/hmc5883l"]
+	path = code/lib/hmc5883l
+	url = https://github.com/rm-hull/hmc5883l.git
+[submodule "code/lib/Adafruit_Python_BMP"]
+	path = code/lib/Adafruit_Python_BMP
+	url = https://github.com/adafruit/Adafruit_Python_BMP.git
+[submodule "code/lib/Adafruit_Raspberry_Pi_Python_Code"]
+	path = code/lib/Adafruit_Raspberry_Pi_Python_Code
+	url = https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code.git
