@@ -1,9 +1,9 @@
 import csv
 
-import lib.Adafruit_Python_BMP.Adafruit_BMP.BMP085.BMP085 as BMP085
-import lib.Adafruit_Raspberry_Pi_Python_Code.Adafruit_ADS1x15.ADS1x15 as ADS1115
-import lib.hmc5883l.hmc5883L as HMC5883L
-import Gyro_L3GD20_Python.L3GD20 as L3GD20
+from lib.Adafruit_Python_BMP.Adafruit_BMP.BMP085 import BMP085 as BMP085
+from lib.Adafruit_Raspberry_Pi_Python_Code.Adafruit_ADS1x15.Adafruit_ADS1x15 import ADS1x15 as ADS1115
+from lib.hmc5883l.hmc5883l import hmc5883l as HMC5883L
+from lib.Gyro_L3GD20_Python.L3GD20 import L3GD20 as L3GD20
 
 # L3GD20 is dependent on the following 3rd-party libraries (not included on github):
 # numpy, smbus
@@ -17,7 +17,7 @@ class Barometer( object ):
 	def __init__( self, mode ):
 		self.sensor = BMP085( mode )
 
-	def read():
+	def read( self ):
 		baroData = dict()
 		baroData['Temperature'] = self.sensor.read_temperature()
 		baroData['Pressure'] = self.sensor.read_pressure()
@@ -39,22 +39,22 @@ class Accelerometer( object ):
 		# Number of digits to round to for g-force data:
 		self.gForcePrecision = 5
 
-	def readX():
+	def readX( self ):
 		xRaw = self.sensor.readADCSingleEnded( channel=1, pga=4096, sps=200 )
 		xAdj = round( ( ( xRaw - self.xZero ) / self.xScale ), self.gForcePrecision )
 		return xAdj
 
-	def readY():
+	def readY( self ):
 		xRaw = self.sensor.readADCSingleEnded( channel=1, pga=4096, sps=200 )
 		xAdj = round( ( ( xRaw - self.xZero ) / self.xScale ), self.gForcePrecision )
 		return xAdj
 
-	def readZ():
-		xRaw = self.sensor.readADCSingleEnded( channel=1, pga=4096, sps=200 )
+	def readZ( self ):
+		xRaw = self.sensor.readADCSingleEnded( channel=1, pga=2048, sps=200 )
 		xAdj = round( ( ( xRaw - self.xZero ) / self.xScale ), self.gForcePrecision )
 		return xAdj
 
-	def read():
+	def read( self ):
 		accelData = dict()
 		accelData['X Accel'] = readX()
 		accelData['Y Accel'] = readY()
@@ -72,20 +72,20 @@ class Gyroscope( object ):
 		self.sensor.Init()
 		self.sensor.Calibrate()
 
-	def readX():
+	def readX( self ):
 		return self.sensor.Get_CalOutX_Value()
 
-	def readY():
+	def readY( self ):
 		return self.sensor.Get_CalOutY_Value()
 
-	def readZ():
+	def readZ( self ):
 		self.sensor.Get_CalOutZ_Value()
 
 
 class Magnetometer( object ):
 	def __init__( self ):
-		self.sensor = HMC5888L.hmc588l()
+		self.sensor = HMC5883L()
 
-	def read():
+	def read( self ):
 		return self.sensor.axes()
 

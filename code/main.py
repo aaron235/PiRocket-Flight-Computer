@@ -7,7 +7,7 @@ ADDRESS_ADS1115 = 0x48
 ADDRESS_BMP180 = 0x77
 
 
-def readData( accel, magnetometer, gyroscope, barometer, filename ):
+def readData( accel, magnetometer, gyroscope, barometer ):
 	outData = dict()
 	outData['accelX'] = accel.readX()
 	outData['accelY'] = accel.readY()
