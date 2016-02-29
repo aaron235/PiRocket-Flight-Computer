@@ -1,9 +1,9 @@
 import csv
 
 import lib.Adafruit_Python_BMP.Adafruit_BMP.BMP085.BMP085 as BMP085
-import lib.Adafruit-Raspberry-Pi-Python-Code.Adafruit_ADS1x15.ADS1x15 as ADS1115
+import lib.Adafruit_Raspberry_Pi_Python_Code.Adafruit_ADS1x15.ADS1x15 as ADS1115
 import lib.hmc5883l.hmc5883L as HMC5883L
-import Gyro-L3GD20-Python.L3GD20 as L3GD20
+import Gyro_L3GD20_Python.L3GD20 as L3GD20
 
 # L3GD20 is dependent on the following 3rd-party libraries (not included on github):
 # numpy, smbus
