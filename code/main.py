@@ -13,10 +13,10 @@ def readData( accel, magnetometer, gyroscope, barometer, filename ):
 	outData['accelY'] = accel.readY()
 	outData['accelZ'] = accel.readZ()
 	outData['magnetometerX'], outData['magnetometerY'], outData['magnetometerZ'] = magnetometer.read()
-	outData['gyroX'] = gyroscope.readX()
-	outData['gyroY'] = gyroscope.readY()
-	outData['gyroZ'] = gyroscope.readZ()
-	outData['pressure'] = barometer.read()
+	#outData['gyroX'] = gyroscope.readX()
+	#outData['gyroY'] = gyroscope.readY()
+	#outData['gyroZ'] = gyroscope.readZ()
+	#outData['pressure'] = barometer.read()
 
 	return outData
 
@@ -27,8 +27,8 @@ def readData( accel, magnetometer, gyroscope, barometer, filename ):
 if ( __name__ == "__main__" ):
 	accel = sensorLoggers.Accelerometer()
 	magnetometer = sensorLoggers.Magnetometer()
-	gyroscope = sensorLoggers.Gyroscope()
-	barometer = sensorLoggers.Barometer()
+	gyroscope = None # sensorLoggers.Gyroscope()
+	barometer = None # sensorLoggers.Barometer()
 	while True:
 		outData = readData( accel, magnetometer, gyroscope, barometer )
 		print( json.dumps( outData ) )
