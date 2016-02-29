@@ -32,3 +32,4 @@ if ( __name__ == "__main__" ):
 	while True:
 		outData = readData( accel, magnetometer, gyroscope, barometer )
 		print( json.dumps( outData ) )
+
