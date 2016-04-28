@@ -1,23 +1,13 @@
-import csv
-
-from lib.Adafruit_Python_BMP.Adafruit_BMP.BMP085 import BMP085 as BMP085
+from lib.Adafruit_Python_BMP.Adafruit_BMP.BMP085 import BMP085
 from lib.Adafruit_Raspberry_Pi_Python_Code.Adafruit_ADS1x15.Adafruit_ADS1x15 import ADS1x15 as ADS1115
 from lib.hmc5883l.hmc5883l import hmc5883l as HMC5883L
 from lib.Gyro_L3GD20_Python.L3GD20 import L3GD20 as L3GD20
 
-# L3GD20 is dependent on the following 3rd-party libraries (not included on github):
-# numpy, smbus
-
-# import Adafruit_ADXL.ADXL377 as ADXL377
-# import UltimateGPS
-
-# TO DO: finish read() of missing components
-
 class Barometer( object ):
-	def __init__( self, mode ):
-		self.sensor = BMP085( mode )
+	def __init__( self ):
+		self.sensor = BMP085()
 
-	def read( self ):
+	def read():
 		baroData = dict()
 		baroData['Temperature'] = self.sensor.read_temperature()
 		baroData['Pressure'] = self.sensor.read_pressure()
@@ -40,21 +30,21 @@ class Accelerometer( object ):
 		self.gForcePrecision = 5
 
 	def readX( self ):
-		xRaw = self.sensor.readADCSingleEnded( channel=1, pga=4096, sps=200 )
+		xRaw = self.sensor.readADCSingleEnded( channel=0, pga=4096, sps=200 )
 		xAdj = round( ( ( xRaw - self.xZero ) / self.xScale ), self.gForcePrecision )
 		return xAdj
 
 	def readY( self ):
-		xRaw = self.sensor.readADCSingleEnded( channel=1, pga=4096, sps=200 )
-		xAdj = round( ( ( xRaw - self.xZero ) / self.xScale ), self.gForcePrecision )
-		return xAdj
+		yRaw = self.sensor.readADCSingleEnded( channel=1, pga=4096, sps=200 )
+		yAdj = round( ( ( yRaw - self.yZero ) / self.yScale ), self.gForcePrecision )
+		return yAdj
 
 	def readZ( self ):
-		xRaw = self.sensor.readADCSingleEnded( channel=1, pga=2048, sps=200 )
-		xAdj = round( ( ( xRaw - self.xZero ) / self.xScale ), self.gForcePrecision )
-		return xAdj
+		zRaw = self.sensor.readADCSingleEnded( channel=2, pga=4096, sps=200 )
+		zAdj = round( ( ( zRaw - self.zZero ) / self.zScale ), self.gForcePrecision )
+		return zAdj
 
-	def read( self ):
+	def read():
 		accelData = dict()
 		accelData['X Accel'] = readX()
 		accelData['Y Accel'] = readY()
@@ -88,4 +78,15 @@ class Magnetometer( object ):
 
 	def read( self ):
 		return self.sensor.axes()
+
+
+
+def read():
+	data = dict()
+	data.update( clock.read() )
+	data.update( barometer.read() )
+	data.update( accelerometer.read() )
+	data.update( gyroscope.read() )
+	data.update( magnetometer.read() )
+	return data
 
